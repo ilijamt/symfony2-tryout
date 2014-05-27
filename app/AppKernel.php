@@ -22,6 +22,8 @@ class AppKernel extends Kernel
             new User\TweetsBundle\UserTweetsBundle(),
 	    new Knp\Bundle\MenuBundle\KnpMenuBundle(),
 	    new Knp\Bundle\PaginatorBundle\KnpPaginatorBundle(),
+	    new FOS\RestBundle\FOSRestBundle(),
+	    new JMS\SerializerBundle\JMSSerializerBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

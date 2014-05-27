@@ -21,3 +21,9 @@ index:
 my_tweets:
     pattern: /my
     defaults: { _controller: UserTweetsBundle:Main:myTweets }
+
+users:
+    prefix: /api
+    type:   rest
+    resource: User\TweetsBundle\Controller\RestController
+
