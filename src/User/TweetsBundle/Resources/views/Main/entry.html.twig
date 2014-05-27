@@ -1,4 +1,4 @@
-<div class="panel panel-default" id="tweet{{ entry.id }}">
+<div class="panel panel-default" id="tweet{{ entry.id }}" date-time="{{ entry.updated|date('U') }}">
 
        {% if app.user and app.user.id == entry.getUserLink.id %}
     <div class="panel-heading text-right">
