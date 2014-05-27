@@ -5,6 +5,13 @@
 {% block body %}
 
 <div id="tweet_container">
+
+    {% if app.user %}
+    <button type="button" id="new-tweet" class="btn btn-default btn-mid">
+        <span class="glyphicon glyphicon-envelope" title="Create a new tweet"></span>
+    </button>
+    {% endif %}
+
     {% for article in pagination %}
         {% include 'UserTweetsBundle:Main:entry.html.twig' with { 'entry': article } %}
     {% else %}

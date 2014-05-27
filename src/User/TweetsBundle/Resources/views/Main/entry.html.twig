@@ -2,11 +2,11 @@
 
        {% if app.user and app.user.id == entry.getUserLink.id %}
     <div class="panel-heading text-right">
-        <button type="button" class="btn btn-default btn-sm">
-            <span class="button glyphicon glyphicon-edit"></span>
+        <button type="button" class="btn btn-default btn-mid">
+            <span class="glyphicon glyphicon-edit" title="Edit" data-target-object="{{ entry.id }}" data-target-html="tweet{{ entry.id }}"></span>
         </button>
         <button type="button" class="btn btn-default btn-sm">
-            <span class="button glyphicon glyphicon-trash"></span>
+            <span class="glyphicon glyphicon-trash" title="Delete" data-id="{{ entry.id }}" data-target="tweet{{ entry.id }}"></span>
         </button>
     </div>
        {% endif %}

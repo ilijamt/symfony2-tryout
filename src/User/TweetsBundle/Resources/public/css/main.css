@@ -24,3 +24,7 @@ html, body, .container{
     margin: 0 auto;
     padding: 10px 0;   
 }
+
+#new-tweet.btn{
+    margin: 10px 0;
+}
