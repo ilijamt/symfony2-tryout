@@ -12,10 +12,25 @@ use Doctrine\ORM\EntityRepository;
  */
 class EntryRepository extends EntityRepository {
 
+    public function getEntry($entry_id) {
+        return $this->getEntryQuery($entry_id)->getResult();
+    }
+
+    public function getEntryQuery($entry_id) {
+
+        $qb = $this->createQueryBuilder('e')
+                ->select('e')
+                ->where('e.id = :entry_id')
+                ->addOrderBy('e.updated', 'DESC')
+                ->setParameter('entry_id', $entry_id);
+
+        return $qb->getQuery();
+    }
+
     public function getEntriesQuery($user_id = null) {
         $qb = $this->createQueryBuilder('e')
                 ->select('e')
-                ->addOrderBy('e.created');
+                ->addOrderBy('e.updated', 'DESC');
 
         if (!is_null($user_id)) {
             $qb->where('e.user_link = :user_id')->setParameter('user_id', $user_id);

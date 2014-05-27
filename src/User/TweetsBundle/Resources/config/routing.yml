@@ -23,7 +23,7 @@ my_tweets:
     defaults: { _controller: UserTweetsBundle:Main:myTweets }
 
 users:
-    prefix: /api
+    prefix: api
     type:   rest
     resource: User\TweetsBundle\Controller\RestController
 
