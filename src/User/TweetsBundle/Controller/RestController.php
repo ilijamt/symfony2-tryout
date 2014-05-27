@@ -42,6 +42,49 @@ class RestController extends FOSRestController {
         return $this->handleView($view);
     }
 
+    public function patchTweetsHtmlAction($entry_id, Request $request) {
+
+        $user = $this->getUser();
+
+        try {
+            if (is_null($user)) {
+                $view = View::create(null, 401);
+            } else {
+
+                $rentry = $this->get('request')->getContent();
+
+                $em = $this->getDoctrine()->getManager();
+                $repository = $em->getRepository('UserTweetsBundle:Entry');
+                $entries = $repository->getEntry($entry_id);
+
+                $entry = array_pop($entries);
+
+                if (is_null($entry)) {
+                    $view = View::create(null, 404);
+                } else {
+
+                    if ($entry->getUserLink()->getId() == $user->getId()) {
+
+                        $entry->setEntry($rentry);
+                        $em->persist($entry);
+                        $em->flush();
+
+                        $view = View::create($entry, 200)
+                                ->setTemplate("UserTweetsBundle:Main:entry.html.twig")
+                                ->setTemplateVar('entry')
+                                ->setFormat('html');
+                    } else {
+                        $view = View::create(null, 401);
+                    }
+                }
+            }
+        } catch (\Exception $exc) {
+            $view = View::create(array('message' => $exc->getMessage()), 400);
+        }
+
+        return $this->handleView($view);
+    }
+
     public function patchTweetsAction($entry_id, Request $request) {
 
         $user = $this->getUser();

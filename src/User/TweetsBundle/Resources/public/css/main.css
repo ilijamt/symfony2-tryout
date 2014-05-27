@@ -28,3 +28,8 @@ html, body, .container{
 #new-tweet.btn{
     margin: 10px 0;
 }
+
+.alert {
+    margin-bottom: 0;
+    margin-top: 5px;
+}
