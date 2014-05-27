@@ -148,7 +148,7 @@ $(document).ready(function() {
                                         },
                                         error: function(jqXHR, textStatus, errorThrown) {
                                             BootstrapDialog.alert("Couldn't delete the tweet");
-                                                dialogRef.close();
+                                            dialogRef.close();
                                         }};
 
                                     jQuery.ajax(settings);
@@ -199,11 +199,13 @@ $(document).ready(function() {
         });
 
         $textarea.keyup(function(evt) {
+            var state = true;
             var maxLength = 140;
             var text = $(this).val();
             var textLength = text.length;
             if (textLength > maxLength) {
                 $(this).val(text.substring(0, (maxLength)));
+                state = false;
             }
             $char_count.text("You have " + (maxLength - textLength) + " characters remaining.");
             if (textLength > 0) {
@@ -211,6 +213,7 @@ $(document).ready(function() {
             } else {
                 $flash.show();
             }
+            return state;
         });
 
         $textarea.trigger('keyup');
