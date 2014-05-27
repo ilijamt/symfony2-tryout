@@ -1,0 +1,23 @@
+{% extends "::base.html.twig" %}
+
+{% block title %}Welcome to TweetAlike{% endblock %}
+
+{% block body %}
+
+<div id="tweet_container">
+    {% for article in pagination %}
+        {% include 'UserTweetsBundle:Main:entry.html.twig' with { 'entry': article } %}
+    {% else %}
+    <div class="panel panel-default" id="no-tweets">
+        <div class="panel-heading">Info</div>
+        <div class="panel-body">
+            <p>There are no entries.</p>
+        </div>
+    </div>
+    {% endfor %}
+    {% if pagination.article|default is empty %}
+        {{ knp_pagination_render(pagination, "", {}, { "class": "pagination-centered text-center" }) }}
+    {% endif %}
+
+</div>
+{% endblock %}

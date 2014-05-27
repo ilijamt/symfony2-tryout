@@ -1,0 +1,4 @@
+UserTweetsBundle:
+    resource: "@UserTweetsBundle/Resources/config/routing.yml"
+    prefix:   /
+

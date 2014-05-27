@@ -1,0 +1,7 @@
+parameters:
+#    user_tweets.example.class: User\TweetsBundle\Example
+
+services:
+#    user_tweets.example:
+#        class: %user_tweets.example.class%
+#        arguments: [@service_id, "plain_value", %parameter%]

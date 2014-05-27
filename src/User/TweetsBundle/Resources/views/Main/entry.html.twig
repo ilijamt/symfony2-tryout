@@ -1,0 +1,18 @@
+<div class="panel panel-default" id="tweet{{ entry.id }}">
+
+       {% if app.user and app.user.id == entry.getUserLink.id %}
+    <div class="panel-heading text-right">
+        <button type="button" class="btn btn-default btn-sm">
+            <span class="button glyphicon glyphicon-edit"></span>
+        </button>
+        <button type="button" class="btn btn-default btn-sm">
+            <span class="button glyphicon glyphicon-trash"></span>
+        </button>
+    </div>
+       {% endif %}
+
+    <div class="panel-body">
+        <p>{{ entry.entry }}</p>
+    </div>
+    <div class="panel-footer">Created by {{ entry.name }} on {{ entry.created|date('Y-m-d H:i:s') }}</div>
+</div>

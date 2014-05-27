@@ -1,0 +1,26 @@
+.form-login {
+    min-width: 500px;
+    max-width: 1000px;
+}
+
+.my-profile {
+    padding: 15px;
+}
+
+html, body, .container{
+    height: 100%;
+}
+.container{
+    display: table;
+    vertical-align: middle;
+}
+.vertical-center-row{
+    display: table-cell;
+    vertical-align: middle;
+}
+
+#tweet_container {
+    width: 80%;
+    margin: 0 auto;
+    padding: 10px 0;   
+}

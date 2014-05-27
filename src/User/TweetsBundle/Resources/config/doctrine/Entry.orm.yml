@@ -1,0 +1,39 @@
+User\TweetsBundle\Entity\Entry:
+    type: entity
+    table: entries
+    repositoryClass: User\TweetsBundle\Entity\EntryRepository
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: IDENTITY
+    fields:
+        username:
+            type: string
+            length: 25
+        name:
+            type: string
+            length: 150;
+        entry:
+            type: text
+            length: 140
+        created:
+            type: datetime
+        updated:
+            type: datetime
+            nullable: true
+    
+    manyToOne:
+        user_link: 
+            targetEntity: User
+            inversedBy: entries
+            nullable: false
+            joinColumn:
+                 name: user_id
+                 referencedColumnName: id       
+ 
+    lifecycleCallbacks: 
+        preUpdate: [ setUpdatedValue ]
+
+
