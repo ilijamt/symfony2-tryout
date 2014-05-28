@@ -107,10 +107,10 @@ API
 ===
 | METHOD | URI                                        | Public Access | notes                                                               |
 |--------|--------------------------------------------|:-------------:|---------------------------------------------------------------------|
-| GET    | /api/latests/<unixtimetamp>                |       Y       | Return all the latest tweets from that date                         |
-| GET    | /api/latests/<unixtimetamp>/users/<userid> |       Y       | Return all the latest tweets from that date for the user in the URI |
+| GET    | /api/latests/&lt;unixtimetamp&gt;                |       Y       | Return all the latest tweets from that date                         |
+| GET    | /api/latests/&lt;unixtimetamp&gt;/users/&lt;userid&gt; |       Y       | Return all the latest tweets from that date for the user in the URI |
 | GET    | /api/tweets                                |       Y       | Gets all the tweets in the database                                 |
-| GET    | /api/tweets/<tweetid>/entry                |       Y       | Gets only the tweet with the ID in the URI                          |
+| GET    | /api/tweets/&lt;tweetid&gt;/entry                |       Y       | Gets only the tweet with the ID in the URI                          |
 | POST   | /api/tweets                                |       N       | Creates a new tweet for the logged in user                          |
-| PATCH  | /api/tweets/<tweetid>                      |       N       | Update the tweet, only the owner can update                         |
-| DELETE | /api/tweets/<tweetid>                      |       N       | Delete the tweet, only the owner can delete                         |
+| PATCH  | /api/tweets/&lt;tweetid&gt;                      |       N       | Update the tweet, only the owner can update                         |
+| DELETE | /api/tweets/&lt;tweetid&gt;                      |       N       | Delete the tweet, only the owner can delete                         |
