@@ -1,6 +1,7 @@
 What we have in this project
 ============================
 * Integration of Bootstrap
+* Ability to create a new user on the page
 * API
   * We can read, create, updated, delete tweets from the API
   * We can render the tweets from the API
