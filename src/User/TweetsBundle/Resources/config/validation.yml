@@ -1,0 +1,15 @@
+User\TweetsBundle\Entity\User:
+    properties:
+        firstName:
+            - NotBlank: ~
+        lastName:
+            - NotBlank: ~            
+        username:
+            - NotBlank: ~
+            - Unique: ~
+        email:
+            - Email: ~
+            - Unique: ~
+        password:
+            - Length: 
+                min: 6
