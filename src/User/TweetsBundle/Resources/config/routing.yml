@@ -27,3 +27,6 @@ users:
     type:   rest
     resource: User\TweetsBundle\Controller\RestController
 
+UserTweetsBundle_user:
+    resource: "@UserTweetsBundle/Resources/config/routing/user.yml"
+    prefix:   /user
