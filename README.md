@@ -55,6 +55,13 @@ In the /etc/hosts file we add this
 127.0.0.1   sy2try.local
 ```
 
+You should enable rewrite module 
+
+```bash
+a2enmod rewrite
+service apache2 restart
+```
+
 Lets create a new user for this application
 
 ```mysql
@@ -92,3 +99,5 @@ Users
 | admin    | admin    | admin@admin.com     | Admin Adminstrator |
 | demo     | demo     | demo@demo.com       | Demo Demonstration |
 | newuser  | newuser  | newuser@newuser.com | New User           |
+
+And that is it, now you can use any of these users to log in the system and try it out.
