@@ -13,6 +13,8 @@ What we have in this project
 * Automatic refresh every 5 seconds of the tweets, if someone adds a tweet they will show up at the top of the list so you can see them. (You can try opening in different browsers)
 * Creating, Updating, Deleting are done with ajax calls through the api.
 
+Live demo of the project can be seen on the following [link](sy2try.matoski.com)
+
 Requirements
 ============
 
