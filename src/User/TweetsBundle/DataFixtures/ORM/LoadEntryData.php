@@ -75,11 +75,11 @@ class LoadEntryData extends AbstractFixture implements OrderedFixtureInterface {
      */
     public function load(ObjectManager $manager) {
 
-        $items = array('user-1', 'user-2');
-        
+        $items = array('user-1', 'user-2', 'user-3');
+
         for ($index = 0; $index < rand(50, 100); $index++) {
             $entry = new Entry();
-            $entry->setEntry(LoremIpsumGenerator::generate());
+            $entry->setEntry(substr(LoremIpsumGenerator::generate(), 0, 140));
             $usr = $this->getReference($items[\array_rand($items)]);
             $usrMerge = $manager->merge($usr);
             $entry->setUsername($usrMerge->getUsername());

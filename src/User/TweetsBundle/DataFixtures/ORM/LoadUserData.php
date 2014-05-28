@@ -58,6 +58,20 @@ class LoadUserData extends AbstractFixture implements FixtureInterface, OrderedF
         $manager->flush();
 
         $this->addReference('user-2', $user);
+    
+        $user = new User();
+        $user->setUsername("newuser");
+        $user->setSalt(md5(uniqid()));
+        $encoder = $this->container->get('security.encoder_factory')->getEncoder($user);
+        $user->setPassword($encoder->encodePassword('newuser', $user->getSalt()));
+        $user->setEmail("newuser@newuser.com");
+        $user->setFirstName('New');
+        $user->setLastName('User');
+
+        $manager->persist($user);
+        $manager->flush();
+
+        $this->addReference('user-3', $user);
     }
 
     public function getOrder() {
