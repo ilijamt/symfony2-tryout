@@ -112,15 +112,7 @@ class RestController extends FOSRestController {
                         $em->persist($entry);
                         $em->flush();
 
-                        $view = View::create(array(
-                                    'id' => $entry->getId(),
-                                    'user_id' => $entry->getUserLink()->getId(),
-                                    'username' => $entry->getUsername(),
-                                    'entry' => $entry->getEntry(),
-                                    'created' => $entry->getCreated(),
-                                    'updated' => $entry->getUpdated(),
-                                    'name' => $entry->getName(),
-                                        ), 200);
+                        $view = View::create($this->buildEntry($entry), 200);
                     } else {
                         $view = View::create(null, 401);
                     }
@@ -154,19 +146,67 @@ class RestController extends FOSRestController {
                 $em->persist($entry);
                 $em->flush();
 
-                $view = View::create(array(
-                            'id' => $entry->getId(),
-                            'user_id' => $user->getId(),
-                            'username' => $entry->getUsername(),
-                            'entry' => $entry->getEntry(),
-                            'created' => $entry->getCreated(),
-                            'updated' => $entry->getUpdated(),
-                            'name' => $entry->getName(),
-                                ), 200);
+                $view = View::create($this->buildEntry($entry), 200);
             }
         } catch (\Exception $exc) {
             $view = View::create(array('message' => $exc->getMessage()), 400);
         }
+
+        return $this->handleView($view);
+    }
+
+    public function getLatestHtmlAction($timestamp) {
+        $em = $this->getDoctrine()->getManager();
+        $repository = $em->getRepository('UserTweetsBundle:Entry');
+        $entries = $repository->getLatest($timestamp);
+
+        $view = View::create($entries, 200)
+                ->setTemplate("UserTweetsBundle:Main:entries.html.twig")
+                ->setTemplateVar('entries')
+                ->setFormat('html');
+
+        return $this->handleView($view);
+    }
+
+    public function getLatestAction($timestamp) {
+        $em = $this->getDoctrine()->getManager();
+        $repository = $em->getRepository('UserTweetsBundle:Entry');
+        $entries = $repository->getLatest($timestamp);
+
+        $data = array();
+
+        foreach ($entries as $key => $entry) {
+            $data[$key] = $this->buildEntry($entry);
+        }
+
+        $view = $this->view($data, 200);
+        return $this->handleView($view);
+    }
+
+    public function getLatestUserAction($timestamp, $user) {
+        $em = $this->getDoctrine()->getManager();
+        $repository = $em->getRepository('UserTweetsBundle:Entry');
+        $entries = $repository->getLatest($timestamp, $user);
+
+        $data = array();
+
+        foreach ($entries as $key => $entry) {
+            $data[$key] = $this->buildEntry($entry);
+        }
+
+        $view = $this->view($data, 200);
+        return $this->handleView($view);
+    }
+
+    public function getLatestUserHtmlAction($timestamp, $user) {
+        $em = $this->getDoctrine()->getManager();
+        $repository = $em->getRepository('UserTweetsBundle:Entry');
+        $entries = $repository->getLatest($timestamp, $user);
+
+        $view = View::create($entries, 200)
+                ->setTemplate("UserTweetsBundle:Main:entries.html.twig")
+                ->setTemplateVar('entries')
+                ->setFormat('html');
 
         return $this->handleView($view);
     }
@@ -199,16 +239,7 @@ class RestController extends FOSRestController {
         if (is_null($entry)) {
             $view = View::create(null, 404);
         } else {
-            $entry = array(
-                'id' => $entry->getId(),
-                'user_id' => $entry->getUserLink()->getId(),
-                'username' => $entry->getUsername(),
-                'entry' => $entry->getEntry(),
-                'created' => $entry->getCreated(),
-                'updated' => $entry->getUpdated(),
-                'name' => $entry->getName(),
-            );
-            $view = $this->view($entry, 200);
+            $view = $this->view($this->buildEntry($entry), 200);
         }
         return $this->handleView($view);
     }
@@ -218,7 +249,13 @@ class RestController extends FOSRestController {
         $repository = $em->getRepository('UserTweetsBundle:Entry');
         $entries = $repository->getEntries();
 
-        $view = $this->view($entries, 200);
+        $data = array();
+
+        foreach ($entries as $key => $entry) {
+            $data[$key] = $this->buildEntry($entry);
+        }
+
+        $view = $this->view($data, 200);
         return $this->handleView($view);
     }
 
@@ -227,8 +264,26 @@ class RestController extends FOSRestController {
         $repository = $em->getRepository('UserTweetsBundle:Entry');
         $entries = $repository->getEntries($user_id);
 
-        $view = $this->view($entries, 200);
+        $data = array();
+
+        foreach ($entries as $key => $entry) {
+            $data[$key] = $this->buildEntry($entry);
+        }
+
+        $view = $this->view($data, 200);
         return $this->handleView($view);
+    }
+
+    protected function buildEntry($entry) {
+        return array(
+            'id' => $entry->getId(),
+            'user_id' => $entry->getUserLink()->getId(),
+            'username' => $entry->getUsername(),
+            'entry' => $entry->getEntry(),
+            'created' => $entry->getCreated(),
+            'updated' => $entry->getUpdated(),
+            'name' => $entry->getName(),
+        );
     }
 
 }
