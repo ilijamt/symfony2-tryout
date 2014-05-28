@@ -12,6 +12,7 @@ What we have in this project
 * Security checks to make sure another user can't create, update, or delete your tweets in your name, unless that user is logged in the system
 * Automatic refresh every 5 seconds of the tweets, if someone adds a tweet they will show up at the top of the list so you can see them. (You can try opening in different browsers)
 * Creating, Updating, Deleting are done with ajax calls through the api.
+* Fixtures to load test data 
 
 Live demo of the project can be seen on the following [link](http://sy2try.matoski.com)
 
@@ -101,3 +102,15 @@ Users
 | newuser  | newuser  | newuser@newuser.com | New User           |
 
 And that is it, now you can use any of these users to log in the system and try it out.
+
+API
+===
+| METHOD | URI                                        | Public Access | notes                                                               |
+|--------|--------------------------------------------|:-------------:|---------------------------------------------------------------------|
+| GET    | /api/latests/<unixtimetamp>                |       Y       | Return all the latest tweets from that date                         |
+| GET    | /api/latests/<unixtimetamp>/users/<userid> |       Y       | Return all the latest tweets from that date for the user in the URI |
+| GET    | /api/tweets                                |       Y       | Gets all the tweets in the database                                 |
+| GET    | /api/tweets/<tweetid>/entry                |       Y       | Gets only the tweet with the ID in the URI                          |
+| POST   | /api/tweets                                |       N       | Creates a new tweet for the logged in user                          |
+| PATCH  | /api/tweets/<tweetid>                      |       N       | Update the tweet, only the owner can update                         |
+| DELETE | /api/tweets/<tweetid>                      |       N       | Delete the tweet, only the owner can delete                         |
