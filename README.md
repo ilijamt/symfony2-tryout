@@ -1,3 +1,6 @@
+What we have in this project
+============================
+
 Requirements
 ============
 
@@ -64,3 +67,11 @@ php app/console doctrine:database:create
 php app/console doctrine:schema:update --force
 php app/console doctrine:fixtures:load
 ```
+
+Users
+=====
+| Username | Password | Email               | Name               |
+|----------|----------|---------------------|--------------------|
+| admin    | admin    | admin@admin.com     | Admin Adminstrator |
+| demo     | demo     | demo@demo.com       | Demo Demonstration |
+| newuser  | newuser  | newuser@newuser.com | New User           |
