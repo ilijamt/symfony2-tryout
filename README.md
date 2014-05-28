@@ -1,5 +1,15 @@
 What we have in this project
 ============================
+* Integration of Bootstrap
+* API
+  * We can read, create, updated, delete tweets from the API
+  * We can render the tweets from the API
+* Integration of login system (can login with username and also with email)
+* My page, where it only shows your own tweets
+* Home page, where it shows all the tweets
+* Pagination
+* Ability to add/edit/remove your own tweets only when you are logged in the system
+* Security checks to make sure another user can't create, update, or delete your tweets in your name, unless that user is logged in the system
 
 Requirements
 ============
@@ -64,9 +74,12 @@ php app/console braincrafted:bootstrap:install
 php app/console braincrafted:bootstrap:generate
 php app/console doctrine:database:drop --force
 php app/console doctrine:database:create
+php app/console doctrine:schema:drop --force
 php app/console doctrine:schema:update --force
 php app/console doctrine:fixtures:load
 ```
+
+Now you should have a fully populated database so we can start playing with it right away
 
 Users
 =====
