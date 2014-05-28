@@ -27,6 +27,12 @@
     </div>
     {% endfor %}
     {% if pagination.article|default is empty %}
+        <div class="panel panel-default" id="no-tweets" style="display: none;">
+            <div class="panel-heading">Info</div>
+            <div class="panel-body">
+                <p>There are no entries.</p>
+            </div>
+        </div>        
         {{ knp_pagination_render(pagination, "", {}, { "class": "pagination-centered text-center" }) }}
     {% endif %}
 

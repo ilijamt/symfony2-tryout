@@ -12,13 +12,30 @@ $(document).ready(function() {
 
         var latestTimestamp = $(".tweet-entry:first").data('timestamp');
         var $target = $(".tweet-entry:first");
+        var append = false;
+
+        if (!($target.length > 0)) {
+            $target = $("#tweet_container");
+            latestTimestamp = 0;
+            append = true;
+        }
+
         jQuery.ajax({
             'url': "/api/latests/" + latestTimestamp + '/html',
             'type': "GET",
             'async': true,
             success: function(returnData, textStatus, jqXHR) {
                 if (returnData.length > 0) {
-                    $target.before($(returnData));
+
+                    if (!($target.length > 0)) {
+                        $("#no-tweets").hide();
+                    }
+
+                    if (append) {
+                        $target.append($(returnData));
+                    } else {
+                        $target.before($(returnData));
+                    }
                 }
                 scheduleCall();
             },

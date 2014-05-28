@@ -4,65 +4,66 @@ namespace User\TweetsBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-
 use User\TweetsBundle\Entity\User;
-use User\TweetsBundle\Form\UserType;
+use User\TweetsBundle\Form\UsersType;
+use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
+use Symfony\Component\Security\Http\Event\InteractiveLoginEvent;
 
 /**
  * User controller.
  *
  */
-class UserController extends Controller
-{
+class UserController extends Controller {
 
     /**
      * Lists all User entities.
      *
      */
-    public function indexAction()
-    {
+    public function indexAction() {
         $em = $this->getDoctrine()->getManager();
 
         $entities = $em->getRepository('UserTweetsBundle:User')->findAll();
 
         return $this->render('UserTweetsBundle:User:index.html.twig', array(
-            'entities' => $entities,
+                    'entities' => $entities,
         ));
     }
+
     /**
      * Creates a new User entity.
      *
      */
-    public function createAction(Request $request)
-    {
+    public function createAction(Request $request) {
         $entity = new User();
         $form = $this->createCreateForm($entity);
         $form->handleRequest($request);
 
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
+
+            $encoder = $this->get('security.encoder_factory')->getEncoder($entity);
+            $entity->setPassword($encoder->encodePassword($entity->getPassword(), $entity->getSalt()));
+
             $em->persist($entity);
             $em->flush();
-
-            return $this->redirect($this->generateUrl('user_show', array('id' => $entity->getId())));
+            return $this->redirect($this->generateUrl('login'));
         }
 
         return $this->render('UserTweetsBundle:User:new.html.twig', array(
-            'entity' => $entity,
-            'form'   => $form->createView(),
+                    'entity' => $entity,
+                    'form' => $form->createView(),
         ));
     }
 
     /**
-    * Creates a form to create a User entity.
-    *
-    * @param User $entity The entity
-    *
-    * @return \Symfony\Component\Form\Form The form
-    */
-    private function createCreateForm(User $entity)
-    {
-        $form = $this->createForm(new UserType(), $entity, array(
+     * Creates a form to create a User entity.
+     *
+     * @param User $entity The entity
+     *
+     * @return \Symfony\Component\Form\Form The form
+     */
+    private function createCreateForm(User $entity) {
+        $form = $this->createForm(new UsersType(), $entity, array(
             'action' => $this->generateUrl('user_create'),
             'method' => 'POST',
         ));
@@ -76,14 +77,13 @@ class UserController extends Controller
      * Displays a form to create a new User entity.
      *
      */
-    public function newAction()
-    {
+    public function newAction() {
         $entity = new User();
-        $form   = $this->createCreateForm($entity);
+        $form = $this->createCreateForm($entity);
 
         return $this->render('UserTweetsBundle:User:new.html.twig', array(
-            'entity' => $entity,
-            'form'   => $form->createView(),
+                    'entity' => $entity,
+                    'form' => $form->createView(),
         ));
     }
 
@@ -91,8 +91,7 @@ class UserController extends Controller
      * Finds and displays a User entity.
      *
      */
-    public function showAction($id)
-    {
+    public function showAction($id) {
         $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('UserTweetsBundle:User')->find($id);
@@ -104,16 +103,15 @@ class UserController extends Controller
         $deleteForm = $this->createDeleteForm($id);
 
         return $this->render('UserTweetsBundle:User:show.html.twig', array(
-            'entity'      => $entity,
-            'delete_form' => $deleteForm->createView(),        ));
+                    'entity' => $entity,
+                    'delete_form' => $deleteForm->createView(),));
     }
 
     /**
      * Displays a form to edit an existing User entity.
      *
      */
-    public function editAction($id)
-    {
+    public function editAction($id) {
         $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('UserTweetsBundle:User')->find($id);
@@ -126,21 +124,20 @@ class UserController extends Controller
         $deleteForm = $this->createDeleteForm($id);
 
         return $this->render('UserTweetsBundle:User:edit.html.twig', array(
-            'entity'      => $entity,
-            'edit_form'   => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
+                    'entity' => $entity,
+                    'edit_form' => $editForm->createView(),
+                    'delete_form' => $deleteForm->createView(),
         ));
     }
 
     /**
-    * Creates a form to edit a User entity.
-    *
-    * @param User $entity The entity
-    *
-    * @return \Symfony\Component\Form\Form The form
-    */
-    private function createEditForm(User $entity)
-    {
+     * Creates a form to edit a User entity.
+     *
+     * @param User $entity The entity
+     *
+     * @return \Symfony\Component\Form\Form The form
+     */
+    private function createEditForm(User $entity) {
         $form = $this->createForm(new UserType(), $entity, array(
             'action' => $this->generateUrl('user_update', array('id' => $entity->getId())),
             'method' => 'PUT',
@@ -150,12 +147,12 @@ class UserController extends Controller
 
         return $form;
     }
+
     /**
      * Edits an existing User entity.
      *
      */
-    public function updateAction(Request $request, $id)
-    {
+    public function updateAction(Request $request, $id) {
         $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('UserTweetsBundle:User')->find($id);
@@ -175,17 +172,17 @@ class UserController extends Controller
         }
 
         return $this->render('UserTweetsBundle:User:edit.html.twig', array(
-            'entity'      => $entity,
-            'edit_form'   => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
+                    'entity' => $entity,
+                    'edit_form' => $editForm->createView(),
+                    'delete_form' => $deleteForm->createView(),
         ));
     }
+
     /**
      * Deletes a User entity.
      *
      */
-    public function deleteAction(Request $request, $id)
-    {
+    public function deleteAction(Request $request, $id) {
         $form = $this->createDeleteForm($id);
         $form->handleRequest($request);
 
@@ -211,13 +208,13 @@ class UserController extends Controller
      *
      * @return \Symfony\Component\Form\Form The form
      */
-    private function createDeleteForm($id)
-    {
+    private function createDeleteForm($id) {
         return $this->createFormBuilder()
-            ->setAction($this->generateUrl('user_delete', array('id' => $id)))
-            ->setMethod('DELETE')
-            ->add('submit', 'submit', array('label' => 'Delete'))
-            ->getForm()
+                        ->setAction($this->generateUrl('user_delete', array('id' => $id)))
+                        ->setMethod('DELETE')
+                        ->add('submit', 'submit', array('label' => 'Delete'))
+                        ->getForm()
         ;
     }
+
 }

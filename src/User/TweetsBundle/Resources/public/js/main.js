@@ -50,6 +50,13 @@ $(document).ready(function() {
                         if ($target.length) {
                             $target.fadeOut(300, function() {
                                 $(this).remove();
+
+                                // check if we have any more tweets 
+                                var $tweets = $(".tweet-entry:first");
+                                if (!($tweets.length > 0)) {
+                                    $("#no-tweets").show();
+                                }
+
                             });
                         }
                     },
@@ -256,10 +263,9 @@ $(document).ready(function() {
                                         'data': $textarea.val(),
                                         'async': true,
                                         success: function(returnData, textStatus, jqXHR) {
-
                                             var $target = $(".tweet-entry:first");
                                             $target.before($(returnData));
-
+                                            $("#no-tweets").hide();
                                         },
                                         error: function(jqXHR, textStatus, errorThrown) {
                                             BootstrapDialog.alert("Couldn't add a new tweet");
