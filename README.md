@@ -10,6 +10,8 @@ What we have in this project
 * Pagination
 * Ability to add/edit/remove your own tweets only when you are logged in the system
 * Security checks to make sure another user can't create, update, or delete your tweets in your name, unless that user is logged in the system
+* Automatic refresh every 5 seconds of the tweets, if someone adds a tweet they will show up at the top of the list so you can see them. (You can try opening in different browsers)
+* Creating, Updating, Deleting are done with ajax calls through the api.
 
 Requirements
 ============
