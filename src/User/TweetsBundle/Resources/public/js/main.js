@@ -25,6 +25,14 @@ BootstrapDialog.yesno = function(message, callback) {
 
 $(document).ready(function() {
 
+    $("#refresh-tweet").on('click', function() {
+        try {
+            refreshTweets();
+        } catch (err) {
+
+        }
+    });
+
     $("#tweet_container").on('click', '.btn-delete-tweet', function(evt) {
 
         var data = $(this).data();
@@ -61,7 +69,7 @@ $(document).ready(function() {
 
         var data = $(this).data();
 
-        var settings = {
+        jQuery.ajax({
             'contentType': 'application/json; charset=utf-8',
             'url': "/api/tweets/" + data.id + "/entry",
             'type': "GET",
@@ -125,7 +133,7 @@ $(document).ready(function() {
 
                                 if (validText) {
 
-                                    var settings = {
+                                    jQuery.ajax({
                                         'url': "/api/tweets/" + data.id + "/html",
                                         'type': "PATCH",
                                         'data': $textarea.val(),
@@ -134,10 +142,10 @@ $(document).ready(function() {
                                             var $target = $("#" + data.target);
                                             if ($target.length) {
 
-                                                var $parent = $target.parent().find("#new-tweet");
+                                                var $parent = $(".tweet-entry:first");
                                                 $target.fadeOut(300, function() {
                                                     $(this).remove();
-                                                    $parent.after($(returnData));
+                                                    $parent.before($(returnData));
                                                     $ntarget = $("#" + data.target);
                                                     $ntarget.slideDown(400);
                                                 });
@@ -149,9 +157,7 @@ $(document).ready(function() {
                                         error: function(jqXHR, textStatus, errorThrown) {
                                             BootstrapDialog.alert("Couldn't delete the tweet");
                                             dialogRef.close();
-                                        }};
-
-                                    jQuery.ajax(settings);
+                                        }});
 
                                 } else {
 
@@ -174,9 +180,7 @@ $(document).ready(function() {
             },
             error: function(jqXHR, textStatus, errorThrown) {
                 BootstrapDialog.alert("Couldn't edit the tweet");
-            }};
-
-        jQuery.ajax(settings);
+            }});
 
     });
 
@@ -253,8 +257,8 @@ $(document).ready(function() {
                                         'async': true,
                                         success: function(returnData, textStatus, jqXHR) {
 
-                                            var $target = $("#new-tweet");
-                                            $target.after($(returnData));
+                                            var $target = $(".tweet-entry:first");
+                                            $target.before($(returnData));
 
                                         },
                                         error: function(jqXHR, textStatus, errorThrown) {

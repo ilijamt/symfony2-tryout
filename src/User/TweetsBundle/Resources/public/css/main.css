@@ -25,6 +25,7 @@ html, body, .container{
     padding: 10px 0;   
 }
 
+#refresh-tweet.btn,
 #new-tweet.btn{
     margin: 10px 0;
 }

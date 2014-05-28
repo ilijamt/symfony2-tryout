@@ -4,13 +4,17 @@
 
 {% block body %}
 
-<div id="tweet_container">
+<div id="tweet_container" data-user="{{ app.user.id }}">
 
         {% if app.user %}
-    <button type="button" id="new-tweet" class="btn btn-default btn-sm">
+    <button type="button" id="new-tweet" class="btn btn-default btn-mid">
         <span class="glyphicon glyphicon-envelope" title="Create a new tweet"></span>
     </button>
     {% endif %}
+
+    <button type="button" id="refresh-tweet" class="btn btn-default btn-mid">
+        <span class="glyphicon glyphicon-refresh" title="Refresh tweets"></span>
+    </button>
 
     {% for article in pagination %}
         {% include 'UserTweetsBundle:Main:entry.html.twig' with { 'entry': article } %}
@@ -26,4 +30,9 @@
         {{ knp_pagination_render(pagination, "", {}, { "class": "pagination-centered text-center" }) }}
     {% endif %}
 </div>
+{% endblock %}
+
+{% block javascripts %}
+{{ parent() }}
+<script src="{{ asset('bundles/usertweets/js/loader-my.js') }}"></script>    
 {% endblock %}

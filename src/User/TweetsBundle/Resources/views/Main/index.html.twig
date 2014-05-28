@@ -12,6 +12,10 @@
     </button>
     {% endif %}
 
+    <button type="button" id="refresh-tweet" class="btn btn-default btn-mid">
+        <span class="glyphicon glyphicon-refresh" title="Refresh tweets"></span>
+    </button>
+
     {% for article in pagination %}
         {% include 'UserTweetsBundle:Main:entry.html.twig' with { 'entry': article } %}
     {% else %}
@@ -27,4 +31,9 @@
     {% endif %}
 
 </div>
+{% endblock %}
+
+{% block javascripts %}
+{{ parent() }}
+<script src="{{ asset('bundles/usertweets/js/loader-all.js') }}"></script>    
 {% endblock %}
